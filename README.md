@@ -339,7 +339,7 @@ int main()
 
 OUTPUT:
 
-![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/db4c89bc-48a3-406e-8932-8aae850a5796)
+![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/012fad3b-d043-4651-ad22-8a4b0350ef36)
 
 
 
@@ -542,7 +542,8 @@ int main()
 
 ## OUTPUT:
 
-![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/cbaf6802-aa74-48ee-bcdf-d24f7a8785ad)
+![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/64eb71af-05b2-4770-a6a1-0972742acc48)
+
 
 
 ## RESULT:
