@@ -253,63 +253,85 @@ To implement Round Robin (RR) Scheduling
 
 ## ALGORITHM:
 
+1. Start the process
+2. Get the number of elements to be inserted
+3. Get the value for burst time for individual processes
+4. Get the value for time quantum
+5. Make the CPU scheduler go around the ready queue allocating CPU to each process
+for the time interval specified
+6. Make the CPU scheduler pick the first process and set time to interrupt after quantum.
+And after it's expiry dispatch the process
+7. If the process has burst time less than the time quantum then the process is released by
+the CPU
+8. If the process has burst time greater than time quantum then it is interrupted by the OS
+and the process is put to the tail of ready queue and the schedule selects next
+process from head of the queue
+9. Calculate the total and average waiting time and turnaround time
+10. Display the results
 
-PROGRAM:
+
+## PROGRAM:
 ```C
 
 #include<stdio.h>
- 
 int main()
 {
- 
-  int count,j,n,time,remain,flag=0,time_quantum;
-  int wait_time=0,turnaround_time=0,at[10],bt[10],rt[10];
-  printf("Enter Total Process:\t ");
-  scanf("%d",&n);
-  remain=n;
-  for(count=0;count<n;count++)
-  {
-    printf("Enter Arrival Time for Process %d :",count+1);
-    scanf("%d",&at[count]);
-    printf("\nEnter Burst Time for Process  %d :" ,count+1);
-    scanf("%d",&bt[count]);
-    rt[count]=bt[count];
-  }
-  printf("Enter Time Quantum:\t");
-  scanf("%d",&time_quantum);
-  printf("\n\nProcess\t|Turnaround Time|Waiting Time\n\n");
-  for(time=0,count=0;remain!=0;)
-  {
-    if(rt[count]<=time_quantum && rt[count]>0)
+    int st[10],bt[10],wt[10],tat[10],n,tq; 
+    int i,count=0,swt=0,stat=0,temp,sq=0;
+    float awt,atat;
+    printf("Enter the number of processes :");
+    scanf("%d",&n);
+    printf("\nEnter the burst time of each process: ");
+    for(i=0;i<n;i++)
     {
-      time+=rt[count];
-      rt[count]=0;
-      flag=1;
+        printf("\np%d",i+1);
+        scanf("%d",&bt[i]);
+        st[i]=bt[i];
+        
     }
-    else if(rt[count]>0)
+    printf("\nenter the time quantum");
+    scanf("%d",&tq);
+    while(1)
     {
-      rt[count]-=time_quantum;
-      time+=time_quantum;
+        for(i=0,count=0;i<n;i++)
+        {
+            temp=tq;
+            if(st[i]==0)
+            {
+                count++;
+                continue;
+                
+            }
+            if(st[i]>tq)
+            st[i]=st[i]-tq;
+            else
+            if(st[i]>=0)
+            {
+                temp=st[i];
+                st[i]=0;
+                
+            }
+            sq=sq+temp;
+            tat[i]=sq;
+            
+        }
+        if(n==count)
+        break;
+        
     }
-    if(rt[count]==0 && flag==1)
+    for(i=0;i<n;i++)
     {
-      remain--;
-      printf("P[%d]\t|\t%d\t|\t%d\n",count+1,time-at[count],time-at[count]-bt[count]);
-      wait_time+=time-at[count]-bt[count];
-      turnaround_time+=time-at[count];
-      flag=0;
+        wt[i]=tat[i]-bt[i];
+        swt=swt+wt[i];
+        stat=stat+tat[i];
+        
     }
-    if(count==n-1)
-      count=0;
-    else if(at[count+1]<=time)
-      count++;
-    else
-      count=0;
-  }
-  printf("\nAverage Waiting Time= %f\n",wait_time*1.0/n);
-  printf("Avg Turnaround Time = %f",turnaround_time*1.0/n);
-  
-  return 0;
+    awt=(float)swt/n;
+    atat=(float)stat/n;
+    printf("\nprocess no\t burst time\t waiting time\t turnaround time\n");
+    for(i=0;i<n;i++)
+    printf("\n%d\t\t %d\t\t %d\t\t %d\n",i+1,bt[i],wt[i],tat[i]); 
+    printf("\nAverage waiting time=%f\nAverage turn around time=%f",awt,atat);
 }
 
 ```
@@ -317,10 +339,12 @@ int main()
 
 OUTPUT:
 
-![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/d269802c-1a33-4204-8c10-0d7cae694d12)
+![image](https://github.com/Jayabharathi3/EX.5-IMPLEMENTATION-OF-CPU-SCHEDULING-ALGORITHMS/assets/120367796/db4c89bc-48a3-406e-8932-8aae850a5796)
+
 
 
 RESULT: Round Robin (RR) Scheduling is implemented successfully.
+
 
 # PRIORITY PREEMPTIVE SCHEDULING
 
@@ -459,7 +483,7 @@ int main()
         scanf("%d",&bt[i]);
         printf("Priority:");
         scanf("%d",&pr[i]);
-        p[i]=i+1;           //contains process number
+        p[i]=i+1;           
     }
  
     //sorting burst time, priority and process number in ascending order using selection sort
